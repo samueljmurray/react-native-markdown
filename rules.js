@@ -3,20 +3,45 @@ var {
   Image,
   Text,
   View,
+  Linking,
 } = require('react-native');
 var SimpleMarkdown = require('simple-markdown');
 var _ = require('lodash');
+
+function splitWords(node, state, styles, props) {
+  // Breaking words up in order to allow for text reflowing in flexbox
+  if (Array.isArray(node.content)) {
+    node.content = _.map(node.content, function(c, i) {
+      return c.content
+    }).join(' ')
+  }
+  var words = node.content.split(' ');
+  words = _.map(words, function(word, i) {
+    var elements = [];
+    if (i != words.length - 1) {
+      word = word + ' ';
+    }
+    var textStyles = [styles];
+    if (!state.withinText) {
+      textStyles.push(styles.plainText);
+    }
+    var allProps = _.merge({}, {
+      key: i,
+      style: textStyles
+    }, props)
+    return React.createElement(Text, allProps, word);
+  });
+  return words;
+}
 
 module.exports = function(styles) {
   return {
     autolink: {
       react: function(node, output, state) {
         state.withinText = true;
-        return React.createElement(Text, {
-          key: state.key,
-          style: styles.autolink,
-          onPress: _.noop
-        }, output(node.content, state));
+        return splitWords(node, state, styles.autolink, {onPress: function() {
+          Linking.openURL(node.target);
+        }});
       }
     },
     blockQuote: {
@@ -57,10 +82,7 @@ module.exports = function(styles) {
     em: {
       react: function(node, output, state) {
         state.withinText = true;
-        return React.createElement(Text, {
-          key: state.key,
-          style: styles.em
-        }, output(node.content, state));
+        return splitWords(node, state, styles.em);
       }
     },
     heading: {
@@ -98,10 +120,9 @@ module.exports = function(styles) {
     link: {
       react: function(node, output, state) {
         state.withinText = true;
-        return React.createElement(Text, {
-          key: state.key,
-          style: styles.autolink
-        }, output(node.content, state));
+        return splitWords(node, state, styles.autolink, {onPress: function() {
+          Linking.openURL(node.target);
+        }});
       }
     },
     list: {
@@ -153,16 +174,14 @@ module.exports = function(styles) {
     strong: {
       react: function(node, output, state) {
         state.withinText = true;
-        return React.createElement(Text, {
-          key: state.key,
-          style: styles.strong
-        }, output(node.content, state));
+        return splitWords(node, state, styles.strong);
       }
     },
     table: {
       react: function(node, output, state) {
         var headers = _.map(node.header, function(content, i) {
           return React.createElement(Text, {
+            key: i,
             style: styles.tableHeaderCell
           }, output(content, state));
         });
@@ -187,23 +206,12 @@ module.exports = function(styles) {
       }
     },
     text: {
+      match: SimpleMarkdown.inlineRegex(
+          /^[\s\S]+?(?=[^0-9A-Za-z\s\u00c0-\uffff_+-.,!@#$%^&();\\/|<>"']|\n\n| {2,}\n|\w+:\S|$)/
+      ),
       react: function(node, output, state) {
         // Breaking words up in order to allow for text reflowing in flexbox
-        var words = node.content.split(' ');
-        words = _.map(words, function(word, i) {
-          var elements = [];
-          if (i != words.length - 1) {
-            word = word + ' ';
-          }
-          var textStyles = [styles.text];
-          if (!state.withinText) {
-            textStyles.push(styles.plainText);
-          }
-          return React.createElement(Text, {
-            style: textStyles
-          }, word);
-        });
-        return words;
+        return splitWords(node, state, styles.text);
       }
     },
     u: {

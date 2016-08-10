@@ -8,6 +8,8 @@ var SimpleMarkdown = require('simple-markdown');
 var styles = {
   view: {
   },
+  autolink: {
+  },
   codeBlock: {
     fontFamily: 'Courier',
     fontWeight: '500'
@@ -76,6 +78,9 @@ var styles = {
     alignItems: 'flex-start',
     justifyContent: 'flex-start'
   },
+  plainText: {
+
+  },
   strong: {
     fontWeight: 'bold'
   },
@@ -107,7 +112,7 @@ var styles = {
     padding: 5
   },
   text: {
-    color: '#222222'
+    color: '#222222',
   },
   u: {
     borderColor: '#222222',
