@@ -11,8 +11,10 @@ var styles = {
   em: {
     fontStyle: 'italic'
   },
-  list: {
+  link: {
 
+  },
+  list: {
   },
   listItem: {
     flexDirection: 'row'
@@ -40,7 +42,7 @@ var styles = {
   },
   text: {
     color: '#222222',
-  },
+  }
 };
 
 

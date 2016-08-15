@@ -117,5 +117,15 @@ module.exports = function(styles) {
         return splitWords(node, state, styles.text);
       }
     },
+    url: {    
+      react: function(node, output, state) {    
+        state.withinText = true;    
+        return React.createElement(Text, {    
+          key: state.key,   
+          style: styles.url,    
+          onPress: _.noop   
+        }, output(node.content, state));    
+      }   
+    }
   }
 };
