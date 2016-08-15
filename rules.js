@@ -44,15 +44,6 @@ module.exports = function(styles) {
         }});
       }
     },
-    blockQuote: {
-      react: function(node, output, state) {
-        state.withinText = true;
-        return React.createElement(Text, {
-          key: state.key,
-          style: styles.blockQuote
-        }, output(node.content, state));
-      }
-    },
     br: {
       react: function(node, output, state) {
         return React.createElement(Text, {
@@ -61,60 +52,10 @@ module.exports = function(styles) {
         }, '\n\n');
       }
     },
-    codeBlock: {
-      react: function(node, output, state) {
-        state.withinText = true;
-        return React.createElement(Text, {
-          key: state.key,
-          style: styles.codeBlock
-        }, null);
-      }
-    },
-    del: {
-      react: function(node, output, state) {
-        state.withinText = true;
-        return React.createElement(Text, {
-          key: state.key,
-          style: styles.del
-        }, output(node.content, state));
-      }
-    },
     em: {
       react: function(node, output, state) {
         state.withinText = true;
         return splitWords(node, state, styles.em);
-      }
-    },
-    heading: {
-      react: function(node, output, state) {
-        state.withinText = true;
-        return React.createElement(Text, {
-          key: state.key,
-          style: [styles.heading, styles['heading' + node.level]]
-        }, output(node.content, state));
-      }
-    },
-    hr: {
-      react: function(node, output, state) {
-        return React.createElement(View, { key: state.key, style: styles.hr });
-      }
-    },
-    image: {
-      react: function(node, output, state) {
-        return React.createElement(Image, {
-          key: state.key,
-          source: { uri: node.target },
-          style: styles.image
-        });
-      }
-    },
-    inlineCode: {
-      react: function(node, output, state) {
-        state.withinText = true;
-        return React.createElement(Text, {
-          key: state.key,
-          style: styles.inlineCode
-        }, output(node.content, state));
       }
     },
     link: {
@@ -145,16 +86,6 @@ module.exports = function(styles) {
         return React.createElement(View, { key: state.key, style: styles.list }, items);
       }
     },
-    mailto: {
-      react: function(node, output, state) {
-        state.withinText = true;
-        return React.createElement(Text, {
-          key: state.key,
-          style: styles.mailto,
-          onPress: _.noop
-        }, output(node.content, state));
-      }
-    },
     newline: {
       react: function(node, output, state) {
         return React.createElement(Text, {
@@ -177,34 +108,6 @@ module.exports = function(styles) {
         return splitWords(node, state, styles.strong);
       }
     },
-    table: {
-      react: function(node, output, state) {
-        var headers = _.map(node.header, function(content, i) {
-          return React.createElement(Text, {
-            key: i,
-            style: styles.tableHeaderCell
-          }, output(content, state));
-        });
-
-        var header = React.createElement(View, { style: styles.tableHeader }, headers);
-
-        var rows = _.map(node.cells, function(row, r) {
-          var cells = _.map(row, function(content, c) {
-            return React.createElement(View, {
-              key: c,
-              style: styles.tableRowCell
-            }, output(content, state));
-          });
-          var rowStyles = [styles.tableRow];
-          if (node.cells.length - 1 == r) {
-            rowStyles.push(styles.tableRowLast);
-          }
-          return React.createElement(View, { key: r, style: rowStyles }, cells);
-        });
-
-        return React.createElement(View, { key: state.key, style: styles.table }, [ header, rows ]);
-      }
-    },
     text: {
       match: SimpleMarkdown.inlineRegex(
           /^[\s\S]+?(?=[^0-9A-Za-z\s\u00c0-\uffff_+-.,!@#$%^&();\\/|<>"']|\n\n| {2,}\n|\w+:\S|$)/
@@ -214,24 +117,5 @@ module.exports = function(styles) {
         return splitWords(node, state, styles.text);
       }
     },
-    u: {
-      react: function(node, output, state) {
-        state.withinText = true;
-        return React.createElement(View, {
-          key: state.key,
-          style: styles.u
-        }, output(node.content, state));
-      }
-    },
-    url: {
-      react: function(node, output, state) {
-        state.withinText = true;
-        return React.createElement(Text, {
-          key: state.key,
-          style: styles.url,
-          onPress: _.noop
-        }, output(node.content, state));
-      }
-    }
   }
 };
