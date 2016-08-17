@@ -7,8 +7,8 @@ var {
 } = require('react-native');
 var SimpleMarkdown = require('simple-markdown');
 var _ = require('lodash');
-import GoogleAnalytics from "react-native-google-analytics-bridge";
-import Mixpanel from "react-native-mixpanel";
+var GoogleAnalytics = require('react-native-google-analytics-bridge');
+var Mixpanel = require('react-native-mixpanel');
 
 function splitWords(node, state, styles, props) {
   // Breaking words up in order to allow for text reflowing in flexbox
@@ -48,10 +48,7 @@ function handleLink(node) {
       "url": node.target
     }
   );
-  // grim
-  setTimeout(() => {
-    Linking.openURL(node.target);
-  }, 250);
+  Linking.openURL(node.target);
 }
 
 module.exports = function(styles) {
