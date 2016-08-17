@@ -15,6 +15,7 @@ var styles = {
 
   },
   list: {
+    flex: 1
   },
   listItem: {
     flexDirection: 'row'
@@ -25,6 +26,8 @@ var styles = {
   },
   listItemNumber: {
     fontWeight: 'bold'
+  },
+  newline: {
   },
   paragraph: {
     marginTop: 10,
@@ -41,7 +44,7 @@ var styles = {
     fontWeight: 'bold'
   },
   text: {
-    color: '#222222',
+    color: '#222222'  
   }
 };
 

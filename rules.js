@@ -77,7 +77,7 @@ module.exports = function(styles) {
           else {
             bullet = React.createElement(Text, { style: styles.listItemBullet }, '\u2022 ');
           }
-          return React.createElement(View, {
+          return React.createElement(Text, {
             key: i,
             style: styles.listItem
           }, [bullet, output(item, state)]);
