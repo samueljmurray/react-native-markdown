@@ -15,7 +15,6 @@ var styles = {
 
   },
   list: {
-    flex: 1
   },
   listItem: {
     flexDirection: 'row'
