@@ -48,7 +48,10 @@ function handleLink(node) {
       "url": node.target
     }
   );
-  Linking.openURL(node.target);
+  // grim
+  setTimeout(() => {
+    Linking.openURL(node.target);
+  }, 250);
 }
 
 module.exports = function(styles) {
