@@ -61,14 +61,6 @@ module.exports = function(styles) {
         }});
       }
     },
-    br: {
-      react: function(node, output, state) {
-        return React.createElement(Text, {
-          key: state.key,
-          style: styles.br
-        }, '\n\n');
-      }
-    },
     em: {
       react: function(node, output, state) {
         state.withinText = true;
@@ -104,11 +96,17 @@ module.exports = function(styles) {
       }
     },
     newline: {
+      match: SimpleMarkdown.inlineRegex(/([^\n]+\n+)/),
+      parse: function(capture, parse, state) {
+        return {
+          content: SimpleMarkdown.parseInline(parse, capture[1].replace(/\n/, ""), state)
+        };
+      },
       react: function(node, output, state) {
+        state.withinText = true;
         return React.createElement(Text, {
-          key: state.key,
           style: styles.newline
-        }, '\n');
+        }, output(node.content, state));
       }
     },
     paragraph: {

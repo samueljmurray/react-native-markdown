@@ -1,6 +1,7 @@
 var React = require('react');
 var {
-  View
+  View,
+  Dimensions
 } = require('react-native');
 var _ = require('lodash');
 var SimpleMarkdown = require('simple-markdown');
@@ -27,10 +28,11 @@ var styles = {
     fontWeight: 'bold'
   },
   newline: {
+    width: Dimensions.get("window").width - 32 - 48
   },
   paragraph: {
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 12,
+    marginBottom: 12,
     flexWrap: 'wrap',
     flexDirection: 'row',
     alignItems: 'flex-start',
