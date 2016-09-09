@@ -21,11 +21,8 @@ var styles = {
     flexDirection: 'row'
   },
   listItemBullet: {
-    fontSize: 20,
-    lineHeight: 20
   },
   listItemNumber: {
-    fontWeight: 'bold'
   },
   newline: {
     width: Dimensions.get("window").width - 32 - 48

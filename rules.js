@@ -86,10 +86,15 @@ module.exports = function(styles) {
           else {
             bullet = React.createElement(Text, { style: styles.listItemBullet }, '\u2022 ');
           }
-          return React.createElement(Text, {
-            key: i,
-            style: styles.listItem
-          }, [bullet, output(item, state)]);
+          return React.createElement(View, {},
+            [
+              bullet,
+              React.createElement(Text, {
+                key: i,
+                style: styles.listItem
+              }, output(item, state))
+            ]
+          );
         });
 
         return React.createElement(View, { key: state.key, style: styles.list }, items);
